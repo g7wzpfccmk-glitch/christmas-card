@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>크리스마스 카드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .instruction {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .card-container {
+            perspective: 1000px;
+            cursor: pointer;
+            position: relative;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .card-image {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            transition: all 0.5s ease;
+            display: block;
+        }
+
+        .card-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+        }
+
+        .fade-out {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="instruction" id="instruction">📮 편지를 클릭하세요!</div>
+    
+    <div class="card-container" id="cardContainer">
+        <img id="cardImage" src="envelope.jpg" class="card-image" alt="Christmas Card">
+    </div>
+
+    <script>
+        const images = [
+            'envelope.jpg',  // 편지 봉투
+            'front.jpg',     // 카드 앞면
+            'inside.jpg'     // 카드 안쪽
+        ];
+
+        const instructions = [
+            '📮 편지를 클릭하세요!',
+            '🎄 카드를 클릭하세요!',
+            '💝 메리 크리스마스!'
+        ];
+
+        let currentIndex = 0;
+        const cardImage = document.getElementById('cardImage');
+        const instruction = document.getElementById('instruction');
+        const container = document.getElementById('cardContainer');
+
+        container.addEventListener('click', () => {
+            cardImage.classList.add('fade-out');
+            
+            setTimeout(() => {
+                currentIndex++;
+                if (currentIndex >= images.length) {
+                    currentIndex = 0; // 처음으로 돌아가기
+                }
+                cardImage.src = images[currentIndex];
+                instruction.textContent = instructions[currentIndex];
+                cardImage.classList.remove('fade-out');
+                cardImage.classList.add('fade-in');
+                
+                setTimeout(() => {
+                    cardImage.classList.remove('fade-in');
+                }, 600);
+            }, 500);
+        });
+    </script>
+</body>
+</html>
